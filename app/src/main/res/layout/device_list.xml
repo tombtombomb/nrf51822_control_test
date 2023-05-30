@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#666" >
+        android:background="#666">
 
         <TextView
             android:id="@+id/title_devices"
@@ -28,6 +28,7 @@
             android:layout_centerVertical="true"
             android:src="@android:drawable/ic_menu_info_details" />
     </RelativeLayout>
+
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >

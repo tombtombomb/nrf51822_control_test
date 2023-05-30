@@ -206,6 +206,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lock" />
+
+            <Button
+                android:id="@+id/setting_bt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Setting" />
+
+            <Button
+                android:id="@+id/startup_bt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Startup" />
         </LinearLayout>
 
         <RelativeLayout

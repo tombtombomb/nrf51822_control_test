@@ -40,20 +40,26 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener {
     private static final int REQUEST_SELECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    private static final int UART_PROFILE_READY = 10;
+    private static final int PID_PARAMETER_SETTING = 3;
+//    private static final int UART_PROFILE_READY = 10;
     private static final int UART_PROFILE_CONNECTED = 20;
     private static final int UART_PROFILE_DISCONNECTED = 21;
+    private static final int FLY_INIT =10;
+    private static final int FLY_STARTUP =11;
+    private static final int FLY_LOCK =12;
     public static final String TAG = "nRF51822_controlor";
     private int mState = UART_PROFILE_DISCONNECTED;
+    private int fly_state=0;
     private byte DOWN_BYTE1 = (byte) 0xAA;
     private byte DOWN_BYTE2 = (byte) 0xAF;
     private UartService mService = null;
     private BluetoothDevice mDevice = null;
     private BluetoothAdapter mBtAdapter = null;
-    private Button btnConnectDisconnect,btnLock;
+    private Button btnConnectDisconnect,btnLock,btnSetting,btnStartup;
     private TextView etAccX,etAccY,etAccZ,etGyroX,etGyroY,etGyroZ;
     private RockerView rockerLeft;
     private RockerView rockerRight;
@@ -100,6 +106,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         byte[] msg=new byte[25];
         @Override
         public void run() {
+            if(fly_state==FLY_STARTUP)
+            {
                 //send data to service
                 byte sum=0;
                 msg[0]=DOWN_BYTE1;
@@ -130,6 +138,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                     sum += msg[i];
                 msg[24] = sum;
                 mService.writeRXCharacteristic(msg);
+            }
         }
     };
 
@@ -149,6 +158,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         }
         btnConnectDisconnect=(Button) findViewById(R.id.controler_connect_bt);
         btnLock=(Button) findViewById(R.id.controler_lock_bt);
+        btnSetting=findViewById(R.id.setting_bt);
+        btnStartup=findViewById(R.id.startup_bt);
         etAccX= (TextView) findViewById(R.id.acceler_x_editview);
         etAccY= (TextView) findViewById(R.id.acceler_y_editview);
         etAccZ= (TextView) findViewById(R.id.acceler_z_editview);
@@ -190,6 +201,32 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
             }
         });
+
+//        PID参数设置
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fly_state==FLY_INIT)
+                {
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivityForResult(intent,PID_PARAMETER_SETTING);
+                }
+            }
+        });
+
+        btnStartup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnStartup.getText().equals("Startup")){
+                    fly_state=FLY_STARTUP;
+                    btnStartup.setText("Down");
+                }
+                else
+                {
+                    fly_state=FLY_INIT;
+                }
+            }
+        });
         // Set initial UI state
         timer.schedule(updataTask,1000,10);
     }
@@ -219,8 +256,10 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 //                        String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                         Log.d(TAG, "UART_CONNECT_MSG");
                         btnConnectDisconnect.setText("Disconnect");
+                        fly_state=FLY_INIT;
                         timer.schedule(sendTask,1000,20);//必须放在这里
                         btnLock.setEnabled(true);
+                        btnSetting.setEnabled(true);
                         mState = UART_PROFILE_CONNECTED;
                     }
                 });
@@ -236,6 +275,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                         sendTask.cancel();
                         btnLock.setEnabled(false);
                         mState = UART_PROFILE_DISCONNECTED;
+                        fly_state=FLY_INIT;
                         mService.close();
                     }
                 });
@@ -365,6 +405,85 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                     Toast.makeText(this, "Problem in BT Turning ON ", Toast.LENGTH_SHORT).show();
                     finish();
                 }
+                break;
+            case PID_PARAMETER_SETTING:
+                {
+                    final byte[] msg=new byte[23];
+                    final byte[] msg2=new byte[23];
+                    byte sum=0;
+//                    解析PID参数并通过蓝牙发送PID参数
+                    if (resultCode == Activity.RESULT_OK && data != null)
+                    {
+                        Toast.makeText(this, "pi_Kp is "+data.getStringExtra("pi_Kp"), Toast.LENGTH_SHORT).show();
+
+                        msg[0]=DOWN_BYTE1;
+                        msg[1]=DOWN_BYTE2;
+                        msg[2]=0x10;
+                        msg[3]=0x12;
+                        msg[4]= (byte) ((Short.parseShort(data.getStringExtra("pi_Kp"))>>8)&0xff);
+                        msg[5]= (byte) (Short.parseShort(data.getStringExtra("pi_Kp"))&0xff);
+                        msg[6]= (byte) ((Short.parseShort(data.getStringExtra("pi_Ki"))>>8)&0xff);
+                        msg[7]= (byte) (Short.parseShort(data.getStringExtra("pi_Ki"))&0xff);
+                        msg[8]= (byte) ((Short.parseShort(data.getStringExtra("pi_Kd"))>>8)&0xff);
+                        msg[9]= (byte) (Short.parseShort(data.getStringExtra("pi_Kd"))&0xff);
+                        msg[10]= (byte) ((Short.parseShort(data.getStringExtra("ro_Kp"))>>8)&0xff);
+                        msg[11]= (byte) (Short.parseShort(data.getStringExtra("ro_Kp"))&0xff);
+                        msg[12]=(byte) ((Short.parseShort(data.getStringExtra("ro_Ki"))>>8)&0xff);
+                        msg[13]=(byte) (Short.parseShort(data.getStringExtra("ro_Ki"))&0xff);
+                        msg[14]=(byte) ((Short.parseShort(data.getStringExtra("ro_Kd"))>>8)&0xff);
+                        msg[15]=(byte) (Short.parseShort(data.getStringExtra("ro_Kd"))&0xff);
+                        msg[16]=(byte) ((Short.parseShort(data.getStringExtra("ya_Kp"))>>8)&0xff);
+                        msg[17]=(byte) (Short.parseShort(data.getStringExtra("ya_Kp"))&0xff);
+                        msg[18]=(byte) ((Short.parseShort(data.getStringExtra("ya_Ki"))>>8)&0xff);
+                        msg[19]=(byte) (Short.parseShort(data.getStringExtra("ya_Ki"))&0xff);
+                        msg[20]=(byte) ((Short.parseShort(data.getStringExtra("ya_Kd"))>>8)&0xff);
+                        msg[21]=(byte) (Short.parseShort(data.getStringExtra("ya_Kd"))&0xff);
+                        for(int i=0;i<22;i++)
+                            sum += msg[i];
+                        msg[22] = sum;
+
+                        sum=0;
+                        msg2[0]=DOWN_BYTE1;
+                        msg2[1]=DOWN_BYTE2;
+                        msg2[2]=0x11;
+                        msg2[3]=0x12;
+                        msg2[4]= (byte) ((Short.parseShort(data.getStringExtra("gx_Kp"))>>8)&0xff);
+                        msg2[5]= (byte) (Short.parseShort(data.getStringExtra("gx_Kp"))&0xff);
+                        msg2[6]= (byte) ((Short.parseShort(data.getStringExtra("gx_Ki"))>>8)&0xff);
+                        msg2[7]= (byte) (Short.parseShort(data.getStringExtra("gx_Ki"))&0xff);
+                        msg2[8]= (byte) ((Short.parseShort(data.getStringExtra("gx_Kd"))>>8)&0xff);
+                        msg2[9]= (byte) (Short.parseShort(data.getStringExtra("gx_Kd"))&0xff);
+                        msg2[10]= (byte) ((Short.parseShort(data.getStringExtra("gy_Kp"))>>8)&0xff);
+                        msg2[11]= (byte) (Short.parseShort(data.getStringExtra("gy_Kp"))&0xff);
+                        msg2[12]=(byte) ((Short.parseShort(data.getStringExtra("gy_Ki"))>>8)&0xff);
+                        msg2[13]=(byte) (Short.parseShort(data.getStringExtra("gy_Ki"))&0xff);
+                        msg2[14]=(byte) ((Short.parseShort(data.getStringExtra("gy_Kd"))>>8)&0xff);
+                        msg2[15]=(byte) (Short.parseShort(data.getStringExtra("gy_Kd"))&0xff);
+                        msg2[16]=(byte) ((Short.parseShort(data.getStringExtra("gz_Kp"))>>8)&0xff);
+                        msg2[17]=(byte) (Short.parseShort(data.getStringExtra("gz_Kp"))&0xff);
+                        msg2[18]=(byte) ((Short.parseShort(data.getStringExtra("gz_Ki"))>>8)&0xff);
+                        msg2[19]=(byte) (Short.parseShort(data.getStringExtra("gz_Ki"))&0xff);
+                        msg2[20]=(byte) ((Short.parseShort(data.getStringExtra("gz_Kd"))>>8)&0xff);
+                        msg2[21]=(byte) (Short.parseShort(data.getStringExtra("gz_Kd"))&0xff);
+                        for(int i=0;i<22;i++)
+                            sum += msg2[i];
+                        msg2[22] = sum;
+
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                super.run();
+                                mService.writeRXCharacteristic(msg);
+                                try {
+                                    Thread.sleep(20);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                mService.writeRXCharacteristic(msg2);
+                            }
+                        }.start();
+                    }
+                 }
                 break;
             default:
                 Log.e(TAG, "wrong request code");

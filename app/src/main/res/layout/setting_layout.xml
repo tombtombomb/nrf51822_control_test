@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pitch_Ki_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pi_Ki" />
+
+                <EditText
+                    android:id="@+id/pitch_Ki_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/pitch_Kp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pi_Kp" />
+
+                <EditText
+                    android:id="@+id/pitch_Kp_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/pitch_Kd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pi_Kd" />
+
+                <EditText
+                    android:id="@+id/pitch_Kd_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/roll_Ki_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ro_Ki" />
+
+                <EditText
+                    android:id="@+id/roll_Ki_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/roll_Kp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ro_Kp" />
+
+                <EditText
+                    android:id="@+id/roll_Kp_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/roll_Kd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ro_Kd" />
+
+                <EditText
+                    android:id="@+id/roll_Kd_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/yaw_Ki_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ya_Ki" />
+
+                <EditText
+                    android:id="@+id/yaw_Ki_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/yaw_Kp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ya_Kp" />
+
+                <EditText
+                    android:id="@+id/yaw_Kp_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/yaw_Kd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ya_Kd" />
+
+                <EditText
+                    android:id="@+id/yaw_Kd_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/gyx_Ki_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gx_Ki" />
+
+                <EditText
+                    android:id="@+id/gyx_Ki_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/gyx_Kp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gx_Kp" />
+
+                <EditText
+                    android:id="@+id/gyx_Kp_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/gyx_Kd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gx_Kd" />
+
+                <EditText
+                    android:id="@+id/gyx_Kd_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/gyy_Ki_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gy_Ki" />
+
+                <EditText
+                    android:id="@+id/gyy_Ki_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/gyy_Kp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gy_Kp" />
+
+                <EditText
+                    android:id="@+id/gyy_Kp_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/gyy_Kd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gy_Kd" />
+
+                <EditText
+                    android:id="@+id/gyy_Kd_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/gyz_Ki_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gz_Ki" />
+
+                <EditText
+                    android:id="@+id/gyz_Ki_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/gyz_Kp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gz_Kp" />
+
+                <EditText
+                    android:id="@+id/gyz_Kp_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/gyz_Kd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gz_Kd" />
+
+                <EditText
+                    android:id="@+id/gyz_Kd_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="textPersonName"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/set_parameters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ok" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
